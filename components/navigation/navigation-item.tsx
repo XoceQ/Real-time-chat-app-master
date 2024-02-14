@@ -12,12 +12,12 @@ interface NavigationItemProps {
     imageUrl: string;
     name: string;
 
-};
+}
 
 export const NavigationItem = ({
                                    id,
                                    imageUrl,
-                                   name,
+                                   name
 
                                }: NavigationItemProps) => {
     const params = useParams();
@@ -27,7 +27,7 @@ export const NavigationItem = ({
     }
 
     return (
-        <ActionTooltip side="right" align="center" label="{name}">
+        <ActionTooltip side="right" align="center" label={name}>
             <button onClick={onClick} className="group relative flex items-center">
                 <div className={cn(
                     "absolute left-0 bg-primary rounded-r-full transition-all w-[4px]",
