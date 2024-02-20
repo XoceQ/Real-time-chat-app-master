@@ -6,6 +6,7 @@ import React from "react";
 import {cn} from "@/lib/utils";
 import {ModalProvider} from "@/components/providers/modal-provider";
 import {ThemeProvider} from "@/components/providers/theme-provider";
+import {SocketProvider} from "@/components/providers/socket-provider";
 
 
 
@@ -30,6 +31,10 @@ export default function RootLayout({
                 <ModalProvider/>
                 {children}
             </ThemeProvider>
+            <SocketProvider>
+                <ModalProvider/>
+                    {children}
+            </SocketProvider>
             </body>
             </html>
         </ClerkProvider>
