@@ -4,10 +4,8 @@ import {
     createContext,
     useContext,
     useEffect,
-    useState,
-
+    useState
 } from "react";
-
 import {io as ClientIO} from "socket.io-client";
 
 type SocketContextType = {
@@ -51,7 +49,6 @@ export const SocketProvider = ({
         return () => {
             socketInstance.disconnect();
         }
-
     }, []);
 
     return (

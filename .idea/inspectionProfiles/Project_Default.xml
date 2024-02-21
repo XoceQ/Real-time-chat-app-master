@@ -4,5 +4,6 @@
     <inspection_tool class="ES6PreferShortImport" enabled="true" level="INFORMATION" enabled_by_default="true" />
     <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="JSIgnoredPromiseFromCall" enabled="true" level="INFORMATION" enabled_by_default="true" />
+    <inspection_tool class="TypeScriptValidateTypes" enabled="true" level="INFORMATION" enabled_by_default="true" />
   </profile>
 </component>
