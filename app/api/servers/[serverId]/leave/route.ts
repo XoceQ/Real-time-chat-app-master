@@ -4,7 +4,7 @@ import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 
 export async function PATCH(
-    req: Request,
+    _req: Request,
     { params }: { params: { serverId: string } }
 ) {
     try {

@@ -9,7 +9,6 @@ import {ThemeProvider} from "@/components/providers/theme-provider";
 import {SocketProvider} from "@/components/providers/socket-provider";
 
 
-
 const font = Open_Sans({subsets: ['latin']})
 
 export const metadata: Metadata = {
@@ -25,19 +24,22 @@ export default function RootLayout({
     return (
         <ClerkProvider>
             <html lang="en" suppressHydrationWarning>
-            <body className={cn (font.className, "bg-white dark:bg-[#313338]")}>
+            <body className={cn(
+                font.className,
+                "bg-white dark:bg-[#313338]"
+            )}>
             <ThemeProvider
-                attribute="class" defaultTheme="dark" enableSystem={false} storageKey="discord-theme">
-                <ModalProvider/>
-                {children}
-            </ThemeProvider>
-            <SocketProvider>
-                <ModalProvider/>
+                attribute="class"
+                defaultTheme="dark"
+                enableSystem={false}
+                storageKey="discord-theme">
+                <SocketProvider>
+                    <ModalProvider/>
                     {children}
-            </SocketProvider>
+                </SocketProvider>
+            </ThemeProvider>
             </body>
             </html>
         </ClerkProvider>
-
     )
 }

@@ -5,7 +5,7 @@ import {v4 as uuidv4} from "uuid";
 
 
 export const PATCH = async (
-    req: Request,
+    _req: Request,
     {params}: { params: { serverId: string } }
 ) => {
     try {
