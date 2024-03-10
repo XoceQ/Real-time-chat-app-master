@@ -1,7 +1,6 @@
 import {NextApiRequest} from "next";
 import {MemberRole} from "@prisma/client";
 
-
 import {NextApiResponseServerIo} from "@/types";
 import {currentProfilePages} from "@/lib/current-profile-pages";
 import {db} from "@/lib/db";
@@ -22,12 +21,13 @@ export default async function handler(
         if (!profile) {
             return res.status(401).json({error: "Unauthorized"});
         }
+
         if (!serverId) {
-            return res.status(400).json({error: "Server ID Missing"});
+            return res.status(400).json({error: "Server ID missing"});
         }
 
         if (!channelId) {
-            return res.status(400).json({error: "Channel ID Missing"});
+            return res.status(400).json({error: "Channel ID missing"});
         }
 
         const server = await db.server.findFirst({
@@ -35,17 +35,16 @@ export default async function handler(
                 id: serverId as string,
                 members: {
                     some: {
-                        profileId: profile.id
+                        profileId: profile.id,
                     }
                 }
             },
             include: {
                 members: true,
-
             }
         })
 
-        if (!serverId) {
+        if (!server) {
             return res.status(404).json({error: "Server not found"});
         }
 
@@ -78,7 +77,7 @@ export default async function handler(
                     }
                 }
             }
-        });
+        })
 
         if (!message || message.deleted) {
             return res.status(404).json({error: "Message not found"});
@@ -100,7 +99,7 @@ export default async function handler(
                 },
                 data: {
                     fileUrl: null,
-                    content: "This message has been deleted",
+                    content: "This message has been deleted.",
                     deleted: true,
                 },
                 include: {
@@ -117,6 +116,7 @@ export default async function handler(
             if (!isMessageOwner) {
                 return res.status(401).json({error: "Unauthorized"});
             }
+
             message = await db.message.update({
                 where: {
                     id: messageId as string,
@@ -133,14 +133,14 @@ export default async function handler(
                 }
             })
         }
-        const updateKey = `chat:${channelId}: messages:updated`;
+
+        const updateKey = `chat:${channelId}:messages:update`;
+
         res?.socket?.server?.io?.emit(updateKey, message);
 
         return res.status(200).json(message);
-
-    } catch
-        (error) {
-        console.error("[MESSAGE_ID]", error);
-        return res.status(500).json({error: "Internal  Error"});
+    } catch (error) {
+        console.log("[MESSAGE_ID]", error);
+        return res.status(500).json({error: "Internal Error"});
     }
 }

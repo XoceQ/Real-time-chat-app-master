@@ -1,7 +1,6 @@
 import {NextApiRequest} from "next";
 import {MemberRole} from "@prisma/client";
 
-
 import {NextApiResponseServerIo} from "@/types";
 import {currentProfilePages} from "@/lib/current-profile-pages";
 import {db} from "@/lib/db";
@@ -22,8 +21,9 @@ export default async function handler(
         if (!profile) {
             return res.status(401).json({error: "Unauthorized"});
         }
+
         if (!conversationId) {
-            return res.status(400).json({error: "Conversation ID Missing"});
+            return res.status(400).json({error: "Conversation ID missing"});
         }
 
         const conversation = await db.conversation.findFirst({
@@ -78,7 +78,7 @@ export default async function handler(
                     }
                 }
             }
-        });
+        })
 
         if (!directMessage || directMessage.deleted) {
             return res.status(404).json({error: "Message not found"});
@@ -100,7 +100,7 @@ export default async function handler(
                 },
                 data: {
                     fileUrl: null,
-                    content: "This message has been deleted",
+                    content: "This message has been deleted.",
                     deleted: true,
                 },
                 include: {
@@ -117,6 +117,7 @@ export default async function handler(
             if (!isMessageOwner) {
                 return res.status(401).json({error: "Unauthorized"});
             }
+
             directMessage = await db.directMessage.update({
                 where: {
                     id: directMessageId as string,
@@ -133,14 +134,14 @@ export default async function handler(
                 }
             })
         }
-        const updateKey = `chat:${conversation.id}: messages:updated`;
+
+        const updateKey = `chat:${conversation.id}:messages:update`;
+
         res?.socket?.server?.io?.emit(updateKey, directMessage);
 
         return res.status(200).json(directMessage);
-
-    } catch
-        (error) {
-        console.error("[MESSAGE_ID]", error);
-        return res.status(500).json({error: "Internal  Error"});
+    } catch (error) {
+        console.log("[MESSAGE_ID]", error);
+        return res.status(500).json({error: "Internal Error"});
     }
 }

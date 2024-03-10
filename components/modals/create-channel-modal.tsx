@@ -71,11 +71,11 @@ export const CreateChannelModal = () => {
     useEffect(() => {
         if (channelType) {
             form.setValue("type", channelType);
-        }else {
+        } else {
             form.setValue("type", ChannelType.TEXT);
         }
 
-    },[channelType]);
+    }, [channelType]);
 
     const isLoading = form.formState.isSubmitting;
 
@@ -85,7 +85,7 @@ export const CreateChannelModal = () => {
             const url = qs.stringifyUrl({
                 url: "/api/channels",
                 query: {
-                   serverId: params?.serverId
+                    serverId: params?.serverId
                 }
             });
             await axios.post(url, values);
@@ -151,14 +151,9 @@ export const CreateChannelModal = () => {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {Object.values(ChannelType).map((type) => (
-                                                    <SelectItem
-                                                        key={type}
-                                                        value={type}
-                                                        className="capitalize">
-                                                        {type.toLowerCase()}
-                                                    </SelectItem>
-                                                ))}
+                                                {/* Opciones de selección del tipo de canal */}
+                                                <SelectItem value={ChannelType.TEXT}
+                                                            className="capitalize">TEXT</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <FormMessage/>

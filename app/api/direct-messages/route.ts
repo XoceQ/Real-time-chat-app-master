@@ -24,7 +24,7 @@ export async function GET(
             return new NextResponse("Conversation ID missing", { status: 400 });
         }
 
-        let messages: DirectMessage[] = [];
+        let messages: DirectMessage[];
 
         if (cursor) {
             messages = await db.directMessage.findMany({

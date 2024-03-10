@@ -1,8 +1,8 @@
 import {NextApiRequest} from "next";
+
 import {NextApiResponseServerIo} from "@/types";
 import {currentProfilePages} from "@/lib/current-profile-pages";
 import {db} from "@/lib/db";
-
 
 export default async function handler(
     req: NextApiRequest,
@@ -22,13 +22,13 @@ export default async function handler(
         }
 
         if (!conversationId) {
-            return res.status(400).json({error: "conversation ID Missing"});
+            return res.status(400).json({error: "Conversation ID missing"});
         }
-
 
         if (!content) {
-            return res.status(400).json({error: "Content Missing"});
+            return res.status(400).json({error: "Content missing"});
         }
+
 
         const conversation = await db.conversation.findFirst({
             where: {
@@ -37,7 +37,6 @@ export default async function handler(
                     {
                         memberOne: {
                             profileId: profile.id,
-
                         }
                     },
                     {
@@ -60,11 +59,12 @@ export default async function handler(
                 }
             }
         })
+
         if (!conversation) {
             return res.status(404).json({message: "Conversation not found"});
         }
 
-        const member = conversation.memberOne.profileId === profile.id ? conversation.memberOne : conversation.memberTwo;
+        const member = conversation.memberOne.profileId === profile.id ? conversation.memberOne : conversation.memberTwo
 
         if (!member) {
             return res.status(404).json({message: "Member not found"});
@@ -91,9 +91,8 @@ export default async function handler(
         res?.socket?.server?.io?.emit(channelKey, message);
 
         return res.status(200).json(message);
-
     } catch (error) {
         console.log("[DIRECT_MESSAGES_POST]", error);
-        return res.status(500).json({message: "Internal error"});
+        return res.status(500).json({message: "Internal Error"});
     }
 }
