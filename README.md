@@ -3,7 +3,10 @@
 ## Getting Started
 
 First, install project dependencies :
+```bash
 npm i or npm install 
+
+```
 
 Next, run the development server:
 
