@@ -21,4 +21,14 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 The ``` npx prisma studio ``` command opens the Prisma Studio, a graphical user interface (GUI) for your database.
 
+> To undo migrations in Prisma, you can use the following command 
+***npx prisma migrate reset***
+> 
+
+**update database 
+
+**npx prisma generate*** > **npx prisma db push*** > **npx prisma db push 
+
+**npx prisma db push*** > **npx prisma db push*** > **npm run dev
+
 
