@@ -9,6 +9,10 @@ const nextConfig = {
     },
     images: {
         domains: ['utfs.io']
+/* usar para correr test cypress/component/file-upload.cy.tsx
+        domains: ['utfs.io', 'dfstudio-d420.kxcdn.com']
+*/
+
     }
 }
 
