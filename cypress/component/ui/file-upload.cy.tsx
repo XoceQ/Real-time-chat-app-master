@@ -30,7 +30,6 @@ describe("FileUpload Component", () => {
         // Si el comportamiento de la zona de carga cambia después de interactuar, puedes agregar más validaciones aquí.
     });
 
-
     it("renders an image when value is an image URL", () => {
         const imageUrl = "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/Sunset-2880x1920.jpeg";
 
@@ -44,8 +43,6 @@ describe("FileUpload Component", () => {
             .should('have.attr', 'src')
             .and('include', encodeURIComponent(imageUrl));  // Verifica que la URL original esté codificada en el src
     });
-
-
 
 
     it("renders a PDF link when value is a PDF URL", () => {

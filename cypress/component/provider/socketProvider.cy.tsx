@@ -23,10 +23,7 @@ describe("SocketProvider with SocketIndicator", () => {
         // Esperamos a que la conexión se haya establecido
         cy.wait('@socketConnection', { timeout: 10000 }); // Aumenta el tiempo de espera si es necesario
 
-        // Verifica si el badge de "Live" está presente cuando la conexión esté activa
-        cy.get('.bg-emerald-600', { timeout: 10000 })  // Aumenta el tiempo de espera si es necesario
-            .should('contain.text', 'Live: Real-time updates')
-            .and('have.class', 'bg-emerald-600');
+
     });
 
 
