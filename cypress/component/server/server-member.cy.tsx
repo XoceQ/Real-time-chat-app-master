@@ -76,6 +76,4 @@ describe("ServerMember Component", () => {
             .should("have.attr", "class", "lucide lucide-shield-alert h-4 w-4 ml-2 text-rose-500"); // Check the exact class
     });
 
-
-
 });

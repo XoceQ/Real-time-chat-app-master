@@ -4,8 +4,8 @@ import { EmojiPicker } from "@/components/emoji-picker";
 import { mount } from "cypress/react18";
 import {ThemeProvider} from "@/components/providers/theme-provider";
 
-describe("Componente EmojiPicker", () => {
-    it("debería renderizar el selector de emojis", () => {
+describe("EmojiPicker Component ", () => {
+    it("should render the emoji selector", () => {
         // Montar el componente
         mount(<EmojiPicker onChange={() => {}} />);
 
@@ -19,7 +19,7 @@ describe("Componente EmojiPicker", () => {
             .should("be.visible"); // Verificar que el selector de emojis se haya renderizado
     });
 
-    it("debería adaptarse al tema actual", () => {
+    it("should be adapted to the current theme", () => {
         // Forzar el tema a 'dark' mediante el ThemeProvider
         const mockTheme = "dark";
 

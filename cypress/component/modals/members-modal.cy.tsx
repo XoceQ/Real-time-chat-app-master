@@ -67,7 +67,7 @@ describe("MembersModal", () => {
         });
     });
 
-    it("debería renderizar el modal correctamente", () => {
+    it("should render the modal correctly", () => {
         mount(
             <AppRouterContext.Provider value={mockRouter}>
                 <MembersModal />
@@ -79,7 +79,7 @@ describe("MembersModal", () => {
 
     });
 
-    it("debería hacer clic en el botón ", () => {
+    it(" should click on the button options", () => {
         mount(
             <AppRouterContext.Provider value={mockRouter}>
                 <MembersModal />
@@ -92,7 +92,7 @@ describe("MembersModal", () => {
     });
 
 
-    it("debería mostrar las opciones del menú correctamente", () => {
+    it("should display the menu options correctly", () => {
         mount(
             <AppRouterContext.Provider value={mockRouter}>
                 <MembersModal />
