@@ -1,0 +1,38 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: CI - Jest Tests
+
+on:
+  push:
+    branches:
+      - testing  # Solo se ejecuta cuando hay cambios en la rama "testing"
+  pull_request:
+    branches:
+      - testing  # Solo se ejecuta cuando se hace un PR a la rama "testing"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: 🏗️ Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.15.1
+          cache: 'npm'
+
+      - name: 📦 Instalar dependencias
+        run: npm install
+
+      - name: 🧪 Ejecutar pruebas específicas con Jest
+        run: |
+          npx jest -- \
+            pages/api/socket/direct-messages/tests/ioHandler.test.ts \
+            pages/api/socket/direct-messages/tests/messageHandler.test.ts \
+            pages/api/socket/direct-messages/tests/messageHandlerPost.test.ts \
+            lib/tests/currentProfile.test.ts
+
