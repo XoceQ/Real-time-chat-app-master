@@ -6,6 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "types": ["jest","cypress", "node-mocks-http"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,

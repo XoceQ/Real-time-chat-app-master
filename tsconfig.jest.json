@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "types": ["jest"]
+  },
+  "include": [
+    "lib/tests/**/*.ts",   // Asumiendo que tus pruebas unitarias están aquí
+    "lib/tests/**/*.tsx"
+  ]
+}

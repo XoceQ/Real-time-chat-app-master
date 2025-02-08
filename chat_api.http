@@ -1,0 +1,31 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+//Obtener sesiones por cliente
+###
+GET https://api.clerk.dev/v1/sessions?client_id=pk_test_ZXhjaXRpbmctZG9iZXJtYW4tMjcuY2xlcmsuYWNjb3VudHMuZGV2JA HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer sk_test_HL8hH3avrjuPfUthHN7zUtLvHF3YzLcZAOXQYfPXgb
+
+
+//Obtener clientes
+###
+GET https://api.clerk.com/v1/clients HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer sk_test_HL8hH3avrjuPfUthHN7zUtLvHF3YzLcZAOXQYfPXgb
+
+//Obtener dirección de correo electrónico
+###
+GET https://api.clerk.com/v1/email_addresses/{email_address_id} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer sk_test_HL8hH3avrjuPfUthHN7zUtLvHF3YzLcZAOXQYfPXgb
+
+
+// obtiene los "JSON Web Key Sets" (JWKS) de Clerk.com.
+###
+GET https://api.clerk.com/v1/jwks HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer sk_test_HL8hH3avrjuPfUthHN7zUtLvHF3YzLcZAOXQYfPXgb
+
+
