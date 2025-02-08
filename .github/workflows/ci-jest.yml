@@ -3,7 +3,13 @@
 
 name: CI - Jest Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - testing  # Solo se ejecuta cuando hay cambios en la rama "testing"
+  pull_request:
+    branches:
+      - testing  # Solo se ejecuta cuando se hace un PR a la rama "testing"
 
 jobs:
   test:
