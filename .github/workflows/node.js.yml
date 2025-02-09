@@ -31,8 +31,6 @@ jobs:
       - name: 🚀 Iniciar servidor en segundo plano
         run: npm run dev &
       
-      - name: ⏳ Esperar a que el servidor esté listo
-        run: npx wait-on http://localhost:3000
 
       - name: 🧪 Ejecutar pruebas E2E con Cypress
         run: npx cypress run
