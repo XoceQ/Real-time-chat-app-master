@@ -28,8 +28,6 @@ jobs:
       - name: 📦 Instalar dependencias
         run: npm install
 
-      - name: 🚀 Iniciar servidor en segundo plano
-        run: npm run dev 
       
      
       
