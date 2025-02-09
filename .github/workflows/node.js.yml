@@ -30,10 +30,8 @@ jobs:
 
       - name: 🚀 Iniciar servidor en segundo plano
         run: npm run dev &
-      
-
-      - name: 🧪 Ejecutar pruebas E2E con Cypress
-        run: npx cypress run
-
+        
+      - name: 🧪 Ejecutar pruebas de Component Testing con Cypress
+        run: npx cypress run --component
      
       
