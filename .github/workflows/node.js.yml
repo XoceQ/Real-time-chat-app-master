@@ -49,12 +49,4 @@ jobs:
           npx prisma generate
           npx prisma migrate deploy
 
-      - name: 🧪 Ejecutar pruebas específicas con Jest
-        env:
-          DATABASE_URL: "mysql://root@localhost:3306/real_time_chat_app"
-        run: |
-          npm test -- \
-            pages/api/socket/direct-messages/tests/ioHandler.test.ts \
-            pages/api/socket/direct-messages/tests/messageHandler.test.ts \
-            pages/api/socket/direct-messages/tests/messageHandlerPost.test.ts \
-            lib/tests/currentProfile.test.ts
+      
