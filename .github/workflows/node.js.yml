@@ -30,8 +30,22 @@ jobs:
 
       - name: 🚀 Iniciar servidor en segundo plano
         run: npm run dev &
-        
+
+      - name: ⏳ Esperar a que el servidor esté listo
+        run: sleep 10
+
+      - name: 🧪 Ejecutar pruebas unitarias con Jest
+        run: |
+          npx jest pages/api/socket/direct-messages/tests/ioHandler.test.ts
+          npx jest pages/api/socket/direct-messages/tests/messageHandler.test.ts
+          npx jest pages/api/socket/direct-messages/tests/messageHandlerPost.test.ts
+          npx jest lib/tests/currentProfile.test.ts
+
+      - name: 🏗️ Instalar Cypress
+        run: npx cypress install
+
       - name: 🧪 Ejecutar pruebas de Component Testing con Cypress
         run: npx cypress run --component
+
      
       
