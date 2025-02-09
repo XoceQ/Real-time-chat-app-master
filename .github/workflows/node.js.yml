@@ -27,7 +27,9 @@ jobs:
 
       - name: 📦 Instalar dependencias
         run: npm install
-
+ 
+      - name: 🧪 Ejecutar pruebas E2E con Cypress
+        run: npx cypress run
       
      
       
