@@ -15,6 +15,21 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ""  # Sin contraseña
+          MYSQL_DATABASE: real_time_chat_app
+          MYSQL_USER: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
       - name: 📥 Clonar el repositorio
         uses: actions/checkout@v3
@@ -28,6 +43,13 @@ jobs:
       - name: 📦 Instalar dependencias
         run: npm install
 
+      - name: 🔍 Esperar a que MySQL esté listo
+        run: sleep 15
+
+      - name: 🛠️ Crear esquema de base de datos (opcional)
+        run: |
+          mysql -h 127.0.0.1 -u root -e "CREATE DATABASE IF NOT EXISTS real_time_chat_app;"
+
       - name: 🚀 Iniciar servidor en segundo plano
         run: npm run dev &
 
@@ -35,6 +57,8 @@ jobs:
         run: sleep 10
 
       - name: 🧪 Ejecutar pruebas unitarias con Jest
+        env:
+          DATABASE_URL: mysql://root@127.0.0.1:3306/real_time_chat_app
         run: |
           npx jest pages/api/socket/direct-messages/tests/ioHandler.test.ts
           npx jest pages/api/socket/direct-messages/tests/messageHandler.test.ts
@@ -47,5 +71,4 @@ jobs:
       - name: 🧪 Ejecutar pruebas de Component Testing con Cypress
         run: npx cypress run --component
 
-     
       
