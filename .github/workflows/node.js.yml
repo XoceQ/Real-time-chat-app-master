@@ -6,14 +6,25 @@ name: CI - Jest Tests
 on:
   push:
     branches:
-      - testing  # Solo se ejecuta cuando hay cambios en la rama "testing"
+      - testing
   pull_request:
     branches:
-      - testing  # Solo se ejecuta cuando se hace un PR a la rama "testing"
+      - testing
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ""  # Sin contraseña
+          MYSQL_DATABASE: real_time_chat_app
+          MYSQL_USER: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: 📥 Clonar el repositorio
@@ -28,9 +39,21 @@ jobs:
       - name: 📦 Instalar dependencias
         run: npm install
 
-      - name: 🧪 Ejecutar pruebas específicas con Jest
+      - name: 🚀 Esperar a que MySQL esté listo
+        run: sleep 15  # Espera 15 segundos para que MySQL arranque
+
+      - name: 🛠️ Configurar la base de datos
+        env:
+          DATABASE_URL: "mysql://root@localhost:3306/real_time_chat_app"
         run: |
-          npx jest -- \
+          npx prisma generate
+          npx prisma migrate deploy
+
+      - name: 🧪 Ejecutar pruebas específicas con Jest
+        env:
+          DATABASE_URL: "mysql://root@localhost:3306/real_time_chat_app"
+        run: |
+          npm test -- \
             pages/api/socket/direct-messages/tests/ioHandler.test.ts \
             pages/api/socket/direct-messages/tests/messageHandler.test.ts \
             pages/api/socket/direct-messages/tests/messageHandlerPost.test.ts \
