@@ -15,17 +15,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: ""  # Sin contraseña
-          MYSQL_DATABASE: real_time_chat_app
-          MYSQL_USER: root
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
       - name: 📥 Clonar el repositorio
         uses: actions/checkout@v3
@@ -39,14 +28,6 @@ jobs:
       - name: 📦 Instalar dependencias
         run: npm install
 
-      - name: 🚀 Esperar a que MySQL esté listo
-        run: sleep 15  # Espera 15 segundos para que MySQL arranque
-
-      - name: 🛠️ Configurar la base de datos
-        env:
-          DATABASE_URL: "mysql://root@localhost:3306/real_time_chat_app"
-        run: |
-          npx prisma generate
-          npx prisma migrate deploy
+   
 
       
