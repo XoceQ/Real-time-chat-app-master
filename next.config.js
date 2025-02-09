@@ -8,9 +8,9 @@ const nextConfig = {
         return config;
     },
     images: {
-        domains: ['utfs.io']
+        //domains: ['utfs.io']
 
-        //domains: ['utfs.io', 'dfstudio-d420.kxcdn.com']
+        domains: ['utfs.io', 'dfstudio-d420.kxcdn.com']
 
     }
 }
