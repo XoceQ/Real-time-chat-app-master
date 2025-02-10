@@ -63,16 +63,16 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: ""  # Sin contraseña
+          MYSQL_ROOT_PASSWORD: "rootpassword"  # Cambiar o usar un secreto
           MYSQL_DATABASE: real_time_chat_app
           MYSQL_USER: root
         ports:
           - 3306:3306
         options: >-
           --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+          --health-interval=5s
+          --health-timeout=10s
+          --health-retries=20  # Más intentos para asegurar que arranque
 
     steps:
       - name: 📥 Clonar el repositorio
@@ -97,6 +97,7 @@ jobs:
             echo "⏳ Esperando MySQL..."
             sleep 2
           done
+          mysql -h 127.0.0.1 -u root -prootpassword -e "SHOW DATABASES;"
 
       - name: 🚀 Iniciar servidor en segundo plano
         run: npm run dev &
@@ -112,8 +113,7 @@ jobs:
             sleep 2
           done
 
-      - name: 🧪 Ejecutar prueba con Jest (requiere MySQL)
+      - name: 🧪 Ejecutar pruebas con Jest (requiere MySQL)
         env:
-          DATABASE_URL: mysql://root@127.0.0.1:3306/real_time_chat_app
+          DATABASE_URL: mysql://root:rootpassword@127.0.0.1:3306/real_time_chat_app
         run: npx jest lib/tests/currentProfile.test.ts
-
