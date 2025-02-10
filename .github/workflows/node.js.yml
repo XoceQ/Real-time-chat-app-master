@@ -63,16 +63,16 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: "rootpassword"  # Cambiar o usar un secreto
+          MYSQL_ROOT_PASSWORD: rootpassword  # Se asigna explícitamente
           MYSQL_DATABASE: real_time_chat_app
           MYSQL_USER: root
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-cmd "mysqladmin ping -h 127.0.0.1 --silent || exit 1"
           --health-interval=5s
           --health-timeout=10s
-          --health-retries=20  # Más intentos para asegurar que arranque
+          --health-retries=20
 
     steps:
       - name: 📥 Clonar el repositorio
