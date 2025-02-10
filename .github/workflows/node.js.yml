@@ -20,9 +20,9 @@ jobs:
     mysql:
       image: mysql:8.0
       env:
-        MYSQL_ROOT_PASSWORD: rootpassword  # Se recomienda poner una contraseña
+        MYSQL_ROOT_PASSWORD: ""  # ✅ Contraseña vacía para root
         MYSQL_DATABASE: real_time_chat_app
-        MYSQL_USER: root
+        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"  # ✅ Permitir contraseña vacía
       ports:
         - 3306:3306
       options: >-
@@ -71,5 +71,5 @@ jobs:
 
     - name: 🧪 Ejecutar prueba con Jest (requiere MySQL)
       env:
-        DATABASE_URL: mysql://root:rootpassword@127.0.0.1:3306/real_time_chat_app
+        DATABASE_URL: mysql://root@127.0.0.1:3306/real_time_chat_app  # ✅ Sin contraseña
       run: npx jest lib/tests/currentProfile.test.ts
