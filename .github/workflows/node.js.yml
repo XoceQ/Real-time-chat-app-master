@@ -98,10 +98,6 @@ jobs:
             sleep 2
           done
 
-      - name: 🛠️ Crear esquema de base de datos (opcional)
-        run: |
-          mysql -h 127.0.0.1 -u root -e "CREATE DATABASE IF NOT EXISTS real_time_chat_app;"
-
       - name: 🚀 Iniciar servidor en segundo plano
         run: npm run dev &
 
