@@ -16,61 +16,60 @@ jobs:
   test_with_mysql:
      runs-on: ubuntu-latest
   
-     services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: rootpassword  # Se recomienda poner una contraseña
-          MYSQL_DATABASE: real_time_chat_app
-          MYSQL_USER: root
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
-          --health-interval=5s
-          --health-timeout=10s
-          --health-retries=20
-  
-     steps:
-      - name: 📥 Clonar el repositorio
-        uses: actions/checkout@v3
-  
-      - name: 🏗️ Configurar Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          cache: 'npm'
-  
-      - name: 📦 Instalar dependencias
-        run: npm install
-  
-      - name: 🔍 Verificar que MySQL está listo
-        run: |
-          for i in {30..0}; do
-            if mysqladmin ping -h 127.0.0.1 --silent; then
-              echo "✅ MySQL está listo."
-              break
-            fi
-            echo "⏳ Esperando MySQL..."
-            sleep 2
-          done
-  
-      - name: 🚀 Iniciar servidor en segundo plano
-        run: npm run dev &
-  
-      - name: ⏳ Esperar a que el servidor esté listo
-        run: |
-          for i in {30..0}; do
-            if curl --silent --fail http://localhost:3000; then
-              echo "✅ Servidor listo."
-              break
-            fi
-            echo "⏳ Esperando servidor..."
-            sleep 2
-          done
-  
-      - name: 🧪 Ejecutar prueba con Jest (requiere MySQL)
-        env:
-          DATABASE_URL: mysql://root:rootpassword@127.0.0.1:3306/real_time_chat_app
-        run: npx jest lib/tests/currentProfile.test.ts
+    services:
+    mysql:
+      image: mysql:8.0
+      env:
+        MYSQL_ROOT_PASSWORD: rootpassword  # Se recomienda poner una contraseña
+        MYSQL_DATABASE: real_time_chat_app
+        MYSQL_USER: root
+      ports:
+        - 3306:3306
+      options: >-
+        --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+        --health-interval=5s
+        --health-timeout=10s
+        --health-retries=20
 
+  steps:
+    - name: 📥 Clonar el repositorio
+      uses: actions/checkout@v3
+
+    - name: 🏗️ Configurar Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: 📦 Instalar dependencias
+      run: npm install
+
+    - name: 🔍 Verificar que MySQL está listo
+      run: |
+        for i in {30..0}; do
+          if mysqladmin ping -h 127.0.0.1 --silent; then
+            echo "✅ MySQL está listo."
+            break
+          fi
+          echo "⏳ Esperando MySQL..."
+          sleep 2
+        done
+
+    - name: 🚀 Iniciar servidor en segundo plano
+      run: npm run dev &
+
+    - name: ⏳ Esperar a que el servidor esté listo
+      run: |
+        for i in {30..0}; do
+          if curl --silent --fail http://localhost:3000; then
+            echo "✅ Servidor listo."
+            break
+          fi
+          echo "⏳ Esperando servidor..."
+          sleep 2
+        done
+
+    - name: 🧪 Ejecutar prueba con Jest (requiere MySQL)
+      env:
+        DATABASE_URL: mysql://root:rootpassword@127.0.0.1:3306/real_time_chat_app
+      run: npx jest lib/tests/currentProfile.test.ts
