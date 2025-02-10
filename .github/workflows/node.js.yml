@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: CI - Run Jest & Cypress Tests
+    name: CI - Run Jest & Cypress Tests
 
 on:
   push:
@@ -12,7 +12,51 @@ on:
       - testing
 
 jobs:
-  test:
+  # 🔹 Tests que NO requieren MySQL
+  test_without_mysql:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: 🏗️ Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Instalar dependencias
+        run: npm install
+
+      - name: 🚀 Iniciar servidor en segundo plano
+        run: npm run dev &
+
+      - name: ⏳ Esperar a que el servidor esté listo
+        run: |
+          for i in {30..0}; do
+            if curl --silent --fail http://localhost:3000; then
+              echo "✅ Servidor listo."
+              break
+            fi
+            echo "⏳ Esperando servidor..."
+            sleep 2
+          done
+
+      - name: 🧪 Ejecutar pruebas unitarias con Jest (sin MySQL)
+        run: |
+          npx jest pages/api/socket/direct-messages/tests/ioHandler.test.ts
+          npx jest pages/api/socket/direct-messages/tests/messageHandler.test.ts
+          npx jest pages/api/socket/direct-messages/tests/messageHandlerPost.test.ts
+
+      - name: 🏗️ Instalar Cypress
+        run: npx cypress install
+
+      - name: 🧪 Ejecutar pruebas de Component Testing con Cypress
+        run: npx cypress run --component
+
+  # 🔹 Test que SÍ requiere MySQL (currentProfile.test.ts)
+  test_with_mysql:
     runs-on: ubuntu-latest
 
     services:
@@ -25,10 +69,10 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h localhost"
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=3
+          --health-retries=5
 
     steps:
       - name: 📥 Clonar el repositorio
@@ -37,14 +81,22 @@ jobs:
       - name: 🏗️ Configurar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20.15.1
+          node-version: 20
           cache: 'npm'
 
       - name: 📦 Instalar dependencias
         run: npm install
 
-      - name: 🔍 Esperar a que MySQL esté listo
-        run: sleep 15
+      - name: 🔍 Verificar que MySQL está listo
+        run: |
+          for i in {30..0}; do
+            if mysqladmin ping -h 127.0.0.1 --silent; then
+              echo "✅ MySQL está listo."
+              break
+            fi
+            echo "⏳ Esperando MySQL..."
+            sleep 2
+          done
 
       - name: 🛠️ Crear esquema de base de datos (opcional)
         run: |
@@ -54,21 +106,18 @@ jobs:
         run: npm run dev &
 
       - name: ⏳ Esperar a que el servidor esté listo
-        run: sleep 10
+        run: |
+          for i in {30..0}; do
+            if curl --silent --fail http://localhost:3000; then
+              echo "✅ Servidor listo."
+              break
+            fi
+            echo "⏳ Esperando servidor..."
+            sleep 2
+          done
 
-      - name: 🧪 Ejecutar pruebas unitarias con Jest
+      - name: 🧪 Ejecutar prueba con Jest (requiere MySQL)
         env:
           DATABASE_URL: mysql://root@127.0.0.1:3306/real_time_chat_app
-        run: |
-          npx jest pages/api/socket/direct-messages/tests/ioHandler.test.ts
-          npx jest pages/api/socket/direct-messages/tests/messageHandler.test.ts
-          npx jest pages/api/socket/direct-messages/tests/messageHandlerPost.test.ts
-          npx jest lib/tests/currentProfile.test.ts
+        run: npx jest lib/tests/currentProfile.test.ts
 
-      - name: 🏗️ Instalar Cypress
-        run: npx cypress install
-
-      - name: 🧪 Ejecutar pruebas de Component Testing con Cypress
-        run: npx cypress run --component
-
-      
