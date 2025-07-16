@@ -1,4 +1,4 @@
-
+El proyecto Real-Time Chat App tiene como objetivo desarrollar una aplicación de chat en tiempo real que facilite la comunicación instantánea y eficiente entre múltiples usuarios. Utiliza tecnologías modernas como TypeScript, React, Node.js y Socket.io. TypeScript aporta tipado estático, mejorando la calidad del código; React se encarga de la interfaz de usuario, ofreciendo una experiencia interactiva; Node.js actúa como el entorno del servidor, gestionando solicitudes y conexiones; y Socket.io permite la transmisión instantánea de mensajes entre el cliente y el servidor. 
 
 ## Getting Started
 
